@@ -1,17 +1,44 @@
+/**
+ * Toggles the dark mode state and applies the corresponding CSS class to the body element.
+ */
+function toggleDarkMode() {
+  darkMode = !darkMode;
+  document.body.classList.toggle("dark-mode");
+}
+
+/** Array to store tasks */
 let tasks = [];
+
+/** Array to store project categories */
 let projects = ["Personal", "Work"];
+
+/** Boolean to track dark mode state */
 let darkMode = false;
 
+/** Main content container element */
 const content = document.getElementById("content");
+
+/** Button element for tasks view */
 const tasksBtn = document.getElementById("tasksBtn");
+
+/** Button element for projects view */
 const projectsBtn = document.getElementById("projectsBtn");
+
+/** Button element for calendar view */
 const calendarBtn = document.getElementById("calendarBtn");
+
+/** Button element for toggling dark mode */
 const darkModeBtn = document.getElementById("darkModeBtn");
 
+// Event listeners for navigation buttons
 tasksBtn.addEventListener("click", showTasks);
 projectsBtn.addEventListener("click", showProjects);
 calendarBtn.addEventListener("click", showCalendar);
 darkModeBtn.addEventListener("click", toggleDarkMode);
+
+/**
+ * Displays the tasks view, including incomplete and completed tasks.
+ */
 function showTasks() {
   setActiveNavButton("tasksBtn");
 
@@ -47,6 +74,11 @@ function showTasks() {
       `;
 }
 
+/**
+ * Creates an HTML string for a task item.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string representing the task item.
+ */
 function createTaskItem(task) {
   return `
           <li class="task-item ${task.completed ? "completed" : ""}">
@@ -61,6 +93,10 @@ function createTaskItem(task) {
       `;
 }
 
+/**
+ * Adds a new task to the tasks array.
+ * @param {Event} event - The form submission event.
+ */
 function addTask(event) {
   event.preventDefault();
   const title = document.getElementById("newTaskTitle").value;
@@ -78,6 +114,9 @@ function addTask(event) {
   }
 }
 
+/**
+ * Displays the projects view, showing tasks grouped by project.
+ */
 function showProjects() {
   setActiveNavButton("projectsBtn");
   content.innerHTML = `
@@ -112,6 +151,9 @@ function showProjects() {
   `;
 }
 
+/**
+ * Displays the calendar view, showing tasks grouped by date.
+ */
 function showCalendar() {
   setActiveNavButton("calendarBtn");
 
@@ -167,6 +209,11 @@ function showCalendar() {
   `;
 }
 
+/**
+ * Formats a date string into a more readable format.
+ * @param {string} dateString - The date string to format.
+ * @returns {string} The formatted date string.
+ */
 function formatDate(dateString) {
   if (dateString === "No Date") return "No Date";
   const date = new Date(dateString);
@@ -178,6 +225,13 @@ function formatDate(dateString) {
   };
   return date.toLocaleDateString("en-US", options);
 }
+
+/**
+ * Generates HTML for a calendar month view.
+ * @param {number} month - The month (0-11).
+ * @param {number} year - The year.
+ * @returns {string} HTML string for the calendar.
+ */
 function generateCalendarDays(month, year) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -230,6 +284,11 @@ function generateCalendarDays(month, year) {
   return calendarHTML;
 }
 
+/**
+ * Returns the name of a month given its index.
+ * @param {number} monthIndex - The month index (0-11).
+ * @returns {string} The name of the month.
+ */
 function getMonthName(monthIndex) {
   const months = [
     "January",
@@ -247,11 +306,18 @@ function getMonthName(monthIndex) {
   ];
   return months[monthIndex];
 }
+
+/**
+ * Toggles the dark mode state and updates the UI.
+ */
 function toggleDarkMode() {
   darkMode = !darkMode;
   document.body.classList.toggle("dark-mode");
 }
 
+/**
+ * Adds a new task to the tasks array.
+ */
 function addTask() {
   const title = document.getElementById("newTaskTitle").value;
   const date = document.getElementById("newTaskDate").value;
@@ -268,6 +334,9 @@ function addTask() {
   }
 }
 
+/**
+ * Adds a new project to the projects array.
+ */
 function addProject() {
   const name = document.getElementById("newProjectName").value;
   if (name && !projects.includes(name)) {
@@ -276,6 +345,10 @@ function addProject() {
   }
 }
 
+/**
+ * Toggles the completed state of a task.
+ * @param {number} id - The ID of the task to toggle.
+ */
 function toggleTask(id) {
   const task = tasks.find((t) => t.id === id);
   if (task) {
@@ -287,6 +360,10 @@ function toggleTask(id) {
 // Initialize the app
 showTasks();
 
+/**
+ * Sets the active navigation button.
+ * @param {string} buttonId - The ID of the button to set as active.
+ */
 function setActiveNavButton(buttonId) {
   document
     .querySelectorAll(".nav-btn")
